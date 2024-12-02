@@ -12,6 +12,7 @@ import {
   deleteEvent,
   joinEvent,
   uploadEventGallery,
+  getAllEventsGallery,
 } from "../controllers/eventController.js";
 import upload from "../config/multerConfig.js";
 import protect from "../middlewares/authMiddleware.js";
@@ -26,6 +27,7 @@ router.post(
 );
 router.post("/join/:eventId", joinEvent);
 router.get("/", protect, getAllEvents);
+router.get("/blog-gallery", getAllEventsGallery);
 router.get("/:id", protect, getEventById);
 router.put("/:id", protect, updateEvent);
 router.delete("/:id", protect, deleteEvent);

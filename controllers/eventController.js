@@ -108,6 +108,23 @@ const getAllEvents = asynchandler(async (req, res) => {
   });
 });
 
+// @Desc Get All Events Gallery
+// @route /api/v1/events/blog-gallery
+// @Access Admin
+const getAllEventsGallery = asynchandler(async (req, res) => {
+  // Fetch only the 'profileImage' field for all events
+  const eventsGallery = await Events.find({ profileImage: { $exists: true, $ne: null } }, "profileImage");
+
+  res.status(200).json({
+    success: true,
+    data: eventsGallery.map(event => event.profileImage).flat(), // Flatten the array of profileImage arrays
+    message: eventsGallery.length
+      ? "Events Gallery Fetched Successfully"
+      : "No Events Gallery Found",
+  });
+});
+
+
 // @Desc Get Particular Event
 // @route /api/v1/events/:id
 // @Access Admin
@@ -230,5 +247,6 @@ export {
   updateEvent,
   deleteEvent,
   uploadEventGallery,
-  joinEvent
+  joinEvent,
+  getAllEventsGallery
 };

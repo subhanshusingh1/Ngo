@@ -16,7 +16,8 @@ import eventRoutes from "./routes/eventRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 // import volunteerRoutes from "./routes/volunteerRoutes.js";
 import formRoutes from "./routes/formRoutes.js";
-import paymentRoutes from "./routes/paymentRoutes.js";
+// import paymentRoutes from "./routes/paymentRoutes.js";
+import blogRoutes from "./routes/blogRoutes.js";
 import connectDB from "./config/db.js";
 import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 
@@ -49,6 +50,19 @@ app.use(cookieParser());
 //   res.status(200).send("Welcome to Backend Development With MERN Stack");
 // });
 
+
+// routes
+app.use("/api/v1/events", eventRoutes);
+// app.use("/api/v1/volunteer", volunteerRoutes);
+app.use("/api/v1/form", formRoutes);
+app.use("/api/v1/admin", adminRoutes);
+// app.use("/api/v1/donation", paymentRoutes);
+app.use("/api/v1/blogs", blogRoutes);
+
+// for undefined routes and handling errors
+app.use(notFound);
+app.use(errorHandler);
+
 app.use((req, res, next) => {
   logger.error(`404 Not Found - ${req.originalUrl}`);
   res.status(404).send("Route not found");
@@ -58,17 +72,6 @@ app.use((err, req, res, next) => {
   logger.error(`Error occurred: ${err.message}`);
   res.status(500).send("Internal Server Error");
 });
-
-// routes
-app.use("/api/v1/events", eventRoutes);
-// app.use("/api/v1/volunteer", volunteerRoutes);
-app.use("/api/v1/form", formRoutes);
-app.use("/api/v1/admin", adminRoutes);
-app.use("/api/v1/donation", paymentRoutes);
-
-// for undefined routes and handling errors
-app.use(notFound);
-app.use(errorHandler);
 
 const startServer = () => {
   app.listen(process.env.PORT, () => {
